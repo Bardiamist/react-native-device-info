@@ -19,12 +19,10 @@ export function getUniqueId() {
 }
 
 export async function syncUniqueId() {
-  if (!uniqueId) {
-    if (Platform.OS === 'ios') {
-      uniqueId = await RNDeviceInfo.syncUniqueId();
-    } else {
-      uniqueId = getUniqueId();
-    }
+  if (Platform.OS === 'ios') {
+    uniqueId = await RNDeviceInfo.syncUniqueId();
+  } else {
+    uniqueId = getUniqueId();
   }
   return uniqueId;
 }
