@@ -21,7 +21,7 @@ export function getUniqueId() {
 export async function syncUniqueId() {
   if (!uniqueId) {
     if (Platform.OS === 'ios') {
-      uniqueId = RNDeviceInfo.syncUniqueId();
+      uniqueId = await RNDeviceInfo.syncUniqueId();
     } else {
       uniqueId = getUniqueId();
     }
