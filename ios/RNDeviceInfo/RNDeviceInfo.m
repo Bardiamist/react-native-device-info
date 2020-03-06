@@ -336,7 +336,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getBuildIdSync) {
 }
 
 RCT_EXPORT_METHOD(syncUniqueId:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
-    resolve([DeviceUID syncUniqueId]);
+    resolve([DeviceUID syncUid]);
 }
 
 - (NSString *) getDeviceId {
