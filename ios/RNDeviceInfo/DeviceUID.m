@@ -34,6 +34,13 @@
     return self;
 }
 
+- (NSString *)syncUniqueId {
+    _uid = [[self class] appleIFV];
+    if (!_uid) _uid = [[self class] randomUUID];
+    [self save];
+    return _uid;
+}
+
 /*! Returns the Device UID.
     The UID is obtained in a chain of fallbacks:
       - Keychain
@@ -45,9 +52,7 @@
 - (NSString *)uid {
     if (!_uid) _uid = [[self class] valueForKeychainKey:_uidKey service:_uidKey];
     if (!_uid) _uid = [[self class] valueForUserDefaultsKey:_uidKey];
-    if (!_uid) _uid = [[self class] appleIFV];
-    if (!_uid) _uid = [[self class] randomUUID];
-    [self save];
+    if (!_uid) [[self class] syncUniqueId];
     return _uid;
 }
 

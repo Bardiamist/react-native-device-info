@@ -18,6 +18,17 @@ export function getUniqueId() {
   return uniqueId;
 }
 
+export async function syncUniqueId() {
+  if (!uniqueId) {
+    if (Platform.OS === 'ios') {
+      uniqueId = RNDeviceInfo.syncUniqueId();
+    } else {
+      uniqueId = getUniqueId();
+    }
+  }
+  return uniqueId;
+}
+
 let instanceId: string;
 export async function getInstanceId() {
   if (!instanceId) {
@@ -1446,6 +1457,7 @@ const deviceInfoModule: DeviceInfoModule = {
   supported64BitAbisSync,
   supportedAbis,
   supportedAbisSync,
+  syncUniqueId,
   useBatteryLevel,
   useBatteryLevelIsLow,
   useDeviceName,
