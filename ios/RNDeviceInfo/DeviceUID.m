@@ -38,13 +38,6 @@ NSString * const UIDKey = @"deviceUID";
     return self;
 }
 
-- (NSString *)syncUid {
-    _uid = [[self class] appleIFV];
-    if (!_uid) _uid = [[self class] randomUUID];
-    [self save];
-    return _uid;
-}
-
 /*! Returns the Device UID.
     The UID is obtained in a chain of fallbacks:
       - Keychain
@@ -56,13 +49,29 @@ NSString * const UIDKey = @"deviceUID";
 - (NSString *)uid {
     if (!_uid) _uid = [[self class] valueForKeychainKey:UIDKey service:UIDKey];
     if (!_uid) _uid = [[self class] valueForUserDefaultsKey:UIDKey];
-    if (!_uid) [[self class] syncUid];
+    if (!_uid) _uid = [[self class] appleIFV];
+    if (!_uid) _uid = [[self class] randomUUID];
+    [self saveIfNeed];
     return _uid;
+}
+
+- (NSString *)syncUid {
+    _uid = [[self class] appleIFV];
+    if (!_uid) _uid = [[self class] randomUUID];
+    [self save];
+    return _uid;
+}
+
+/*! Persist UID to NSUserDefaults and Keychain
+ */
+- (void)save {
+  [DeviceUID setValue:_uid forUserDefaultsKey:UIDKey];
+  [DeviceUID setValue:_uid forKeychainKey:UIDKey inService:UIDKey];
 }
 
 /*! Persist UID to NSUserDefaults and Keychain, if not yet saved
  */
-- (void)save {
+- (void)saveIfNeed {
   if (![DeviceUID valueForUserDefaultsKey:UIDKey]) {
     [DeviceUID setValue:_uid forUserDefaultsKey:UIDKey];
   }
