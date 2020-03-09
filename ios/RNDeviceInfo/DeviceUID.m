@@ -66,7 +66,7 @@ NSString * const UIDKey = @"deviceUID";
  */
 - (void)save {
   [DeviceUID setValue:_uid forUserDefaultsKey:UIDKey];
-  [DeviceUID setValue:_uid forKeychainKey:UIDKey inService:UIDKey];
+  [DeviceUID updateValue:_uid forKeychainKey:UIDKey inService:UIDKey];
 }
 
 /*! Persist UID to NSUserDefaults and Keychain, if not yet saved
@@ -103,6 +103,24 @@ NSString * const UIDKey = @"deviceUID";
     NSMutableDictionary *keychainItem = [[self class] keychainItemForKey:key service:service];
     keychainItem[(__bridge id)kSecValueData] = [value dataUsingEncoding:NSUTF8StringEncoding];
     return SecItemAdd((__bridge CFDictionaryRef)keychainItem, NULL);
+}
+
+/*! Updates
+ *  param1
+ *  param2
+ */
++ (OSStatus)updateValue:(NSString *)value forKeychainKey:(NSString *)key inService:(NSString *)service {
+    NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
+                           (__bridge id)kSecClassGenericPassword, kSecClass,
+                           key, kSecAttrAccount,
+                           service, kSecAttrService,
+                           nil];
+
+    NSDictionary *attributesToUpdate = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [value dataUsingEncoding:NSUTF8StringEncoding], kSecValueData,
+                                       nil];
+
+    return SecItemUpdate((CFDictionaryRef)query, (CFDictionaryRef)attributesToUpdate);
 }
 
 + (NSString *)valueForKeychainKey:(NSString *)key service:(NSString *)service {
