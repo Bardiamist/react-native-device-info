@@ -55,6 +55,8 @@ NSString * const UIDKey = @"deviceUID";
     return _uid;
 }
 
+/*! Persist Apple IFV (Identifier for Vendor) or random UUID as Device UID.
+*/
 - (NSString *)syncUid {
     _uid = [[self class] appleIFV];
     if (!_uid) _uid = [[self class] randomUUID];
