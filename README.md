@@ -1186,7 +1186,7 @@ DeviceInfo.syncUniqueId().then(uniqueId => {
 
 #### Notes
 
-> - If user moved or restored data from one iOS device to second iOS device then he will have two different devices with same `uniqueId` in Keychain/NSUserDefaults. User can call `syncUniqueId` on new iOS device. That will update his `uniqueId` from [`IDFV`](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor) or a random string.
+> - If user moved or restored data from one iOS device to second iOS device then he will have two different devices with same `uniqueId` in Keychain/NSUserDefaults. User can call `syncUniqueId()` on new iOS device. That will update his `uniqueId` from [`IDFV`](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor) or a random string.
 
 ---
 
