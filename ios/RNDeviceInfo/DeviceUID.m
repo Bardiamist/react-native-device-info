@@ -122,7 +122,7 @@ NSString * const UIDKey = @"deviceUID";
                                        [value dataUsingEncoding:NSUTF8StringEncoding], kSecValueData,
                                        nil];
 
-    return SecItemUpdate((CFDictionaryRef)query, (CFDictionaryRef)attributesToUpdate);
+    return SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributesToUpdate);
 }
 
 + (NSString *)valueForKeychainKey:(NSString *)key service:(NSString *)service {
